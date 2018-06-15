@@ -1,0 +1,19 @@
+.modal-body {
+    min-height: 400px;
+    max-height: 400px;
+}
+
+.search-result {
+    cursor: pointer;
+}
+
+#location-results {
+    margin-top: 15px;
+    max-height: 315px;
+    overflow-y: auto;
+}
+
+.navbar-brand > img {
+    width: 60px;
+    margin-top: -10px;
+}

@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="input-group fade-me-in">
+      <input type="text" class="form-control" placeholder="Find All Offers..." [(ngModel)]="query" (keyup.enter)="getOffers()">
+      <span class="input-group-btn">
+          <button class="btn btn-default" type="button" (click)="getOffers()">
+            &nbsp;<i *ngIf="searching" class="fa fa-circle-o-notch fa-spin fa-fw"></i>&nbsp;Search&nbsp;</button>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row margin-top-md">
+  <div *ngIf="products">
+    <div class="text-center pager-header margin-bottom-sm" *ngIf="pager">
+      {{ pager.total_record_count }} Product{{ pager.total_record_count == 1 ? "" : "s" }} Found
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item fade-me-in" *ngFor="let product of products">
+        <div class="row">
+          <div class="col-md-3" [id]="product.id">
+            <img [src]="defaultImage" [lazyLoad]="product.image_thumb_url" [offset]="offset" 
+              class="img-responsive img-rounded">
+          </div>
+          <div class="col-md-9">
+            <h3><a class="product-link" (click)="navigateToProductDetails(product.id)">{{ product.name }}</a></h3>
+            <div *ngIf="product.is_discontinued" class="text-danger">Discontinued</div>
+            <h4 *ngIf="product.origin">{{ product.origin }}</h4>
+            <div *ngIf="product.varietal">{{ product.varietal }}</div>
+            <div *ngIf="product.package">{{ product.package }}</div>
+            <div *ngIf="product.has_bonus_reward_miles">{{ product.bonus_reward_miles }}</div>
+            <div>
+              <label [class.strike]="product.has_limited_time_offer" [class.text-danger]="product.has_limited_time_offer">{{ product.regular_price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}</label>
+              <label *ngIf="product.has_limited_time_offer">&nbsp;{{ product.price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}&nbsp; Offer ends {{ product.limited_time_offer_ends_on }}</label>
+            </div>
+            <div *ngIf="product.tasting_note" class="margin-top-md well">
+              <p>{{ product.tasting_note }}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="text-center pager-header margin-bottom-sm" *ngIf="pager && pager.total_record_count > 0">
+  Showing {{ getProductCount() }} of {{ pager.total_record_count }} Product{{ pager.total_record_count == 1 ? "" : "s" }}
+</div>
+<div class="row margin-top-sm margin-bottom-sm" *ngIf="pager && !pager.is_final_page">
+  <div class="col-md-12 text-center">
+    <button class="btn btn-default btn-lg" (click)="loadMoreResults(pager.next_page_path)">
+      &nbsp;<i *ngIf="searching" class="fa fa-circle-o-notch fa-spin fa-fw"></i>&nbsp;Load More Results...&nbsp;
+    </button>
+  </div>
+</div>

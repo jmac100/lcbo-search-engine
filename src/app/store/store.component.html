@@ -1,0 +1,98 @@
+<div *ngIf="store" class="row fade-me-in">
+  <div class="col-md-12">    
+    <div class="panel panel-default">
+      <div class="panel-body">
+         <div class="col-md-5">
+           <img class="img-responsive" src="https://maps.googleapis.com/maps/api/streetview?size=300x300&location={{store.latitude}},{{store.longitude}}&key=AIzaSyAvBVUQkWBgUaknxwobOEEpa22hlWv8VUA">
+         </div>
+         <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>{{ store.name }}</h3>
+                <div>{{ store.address_line_1 }}</div>
+                <div *ngIf="store.address_line_2">{{ store.address_line_2 }}</div>
+                <div>{{ store.city }}</div>
+                <div>{{ store.postal_code }}</div>
+                <div><a href="tel:{{ store.telephone }}">{{ store.telephone }}</a> | <a [href]="formatMapUrl()" target="_blank">Directions</a></div>
+              </div>
+            </div>
+            <div class="row margin-top-md">
+              <div class="col-md-12">
+                <ul class="list-inline">
+                  <li *ngIf="store.has_beer_cold_room"><i class="fa fa-check"></i> Cold Beer</li>
+                  <li *ngIf="store.has_bilingual_services"><i class="fa fa-check"></i> Bilingual Services</li>
+                  <li *ngIf="store.has_parking"><i class="fa fa-check"></i> Parking</li>
+                  <li *ngIf="store.has_product_consultant"><i class="fa fa-check"></i> Product Consultant</li>
+                  <li *ngIf="store.has_special_occasion_permits"><i class="fa fa-check"></i> Special Occasion Permits</li>
+                  <li *ngIf="store.has_tasting_bar"><i class="fa fa-check"></i> Tasting Bar</li>
+                  <li *ngIf="store.has_transit_access"><i class="fa fa-check"></i> Transit Access</li>
+                  <li *ngIf="store.has_vintages_corner"><i class="fa fa-check"></i> Vintages</li>
+                  <li *ngIf="store.has_wheelchair_accessability"><i class="fa fa-check"></i> Wheelchair Accessable</li>
+                </ul>
+              </div>
+            </div>            
+        </div>
+        <div class="col-md-3">
+          <h4>Store Hours</h4>
+          <div>Monday: {{ store.monday_open | storeHoursConverter }} - {{ store.monday_close | storeHoursConverter }}</div>
+          <div>Tuesday: {{ store.tuesday_open | storeHoursConverter }} - {{ store.tuesday_close | storeHoursConverter }}</div>
+          <div>Wednesday: {{ store.wednesday_open | storeHoursConverter }} - {{ store.wednesday_close | storeHoursConverter }}</div>
+          <div>Thursday: {{ store.thursday_open | storeHoursConverter }} - {{ store.thursday_close | storeHoursConverter }}</div>
+          <div>Friday: {{ store.friday_open | storeHoursConverter }} - {{ store.friday_close | storeHoursConverter }}</div>
+          <div>Saturday: {{ store.saturday_open | storeHoursConverter }} - {{ store.saturday_close | storeHoursConverter }}</div>
+          <div>Sunday: {{ store.sunday_open | storeHoursConverter }} - {{ store.sunday_close | storeHoursConverter }}</div>
+        </div>        
+      </div>
+      <div class="panel-footer">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search Inventory..." [(ngModel)]="inventory" (keyup.enter)="searchInventory()">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" (click)="searchInventory()">
+                  <i *ngIf="searching" class="fa fa-circle-o-notch fa-spin fa-fw"></i>&nbsp;&nbsp;Search</button>
+            </span>
+        </div>
+      </div>
+    </div>    
+    <div *ngIf="products" class="margin-top-md">
+      <ul class="list-group">
+        <li class="list-group-item fade-me-in" *ngFor="let product of products">
+          <div class="row">
+            <div class="col-md-3">
+              <img *ngIf="product.image_thumb_url" [src]="defaultImage" [lazyLoad]="product.image_thumb_url" class="img-responsive img-rounded">
+            </div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-1 col-md-offset-11">
+                  <button class="btn btn-default" *ngIf="!_cacheService.findFavourite(product.id)" title="Add to Favourites" (click)="_cacheService.addFavourite(product.name, product.id)">
+                    <i class="fa fa-star-o"></i>
+                  </button>
+                  <button class="btn btn-default" *ngIf="_cacheService.findFavourite(product.id)" title="Remove from Favourites" (click)="_cacheService.removeFavourite(product.id)">
+                    <i class="fa fa-star"></i>
+                  </button>
+                </div>
+              </div>          
+              <h3>{{ product.name }}</h3>
+              <div *ngIf="product.is_discontinued" class="text-danger">Discontinued</div>
+              <h4 *ngIf="product.origin">{{ product.origin }}</h4>
+              <div *ngIf="product.varietal">{{ product.varietal }}</div>
+              <div *ngIf="product.package">{{ product.package }}</div>
+              <div>
+                <label [class.strike]="product.has_limited_time_offer" [class.text-danger]="product.has_limited_time_offer">{{ product.regular_price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}</label>
+                <label *ngIf="product.has_limited_time_offer">&nbsp;{{ product.price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}&nbsp; Offer ends {{ product.limited_time_offer_ends_on }}</label>
+              </div>
+              <div *ngIf="product.serving_suggestion">
+                <p>
+                  Serving Suggestion:<br />
+                  {{ product.serving_suggestion }}
+                </p>
+              </div>
+              <div *ngIf="product.tasting_note" class="margin-top-md well">
+                <p>{{ product.tasting_note }}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

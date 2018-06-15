@@ -1,0 +1,38 @@
+<div *ngIf="product" class="row fade-me-in">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-md-5">
+          <button class="btn btn-default btn-block" *ngIf="!_cacheService.findFavourite(product.id)" title="Add to Favourites" (click)="_cacheService.addFavourite(product.name, product.id)">
+            <i class="fa fa-star-o"></i>&nbsp;Add to Favourites
+          </button>
+          <button class="btn btn-default btn-block" *ngIf="_cacheService.findFavourite(product.id)" title="Remove from Favourites" (click)="_cacheService.removeFavourite(product.id)">
+            <i class="fa fa-star"></i>&nbsp;Remove from Favourites
+          </button>
+          <img [src]="product.image_url" class="img-responsive img-rounded margin-top-sm">
+        </div>
+        <div class="col-md-7">          
+          <h3>{{ product.name }}</h3>
+          <div *ngIf="product.is_discontinued" class="text-danger">Discontinued</div>
+          <h4 *ngIf="product.origin">{{ product.origin }}</h4>
+          <div *ngIf="product.varietal">{{ product.varietal }}</div>
+          <div *ngIf="product.package">{{ product.package }}</div>
+          <div>
+            <label [class.strike]="product.has_limited_time_offer" [class.text-danger]="product.has_limited_time_offer">{{ product.regular_price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}</label>
+            <label *ngIf="product.has_limited_time_offer">&nbsp;{{ product.price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}&nbsp; Offer ends {{ product.limited_time_offer_ends_on }}</label>
+          </div>
+          <div *ngIf="inventory">Quantity @ your store: <label [class.text-success]="inventory.quantity" [class.text-danger]="!inventory.quantity">{{ inventory.quantity }}</label></div>
+          <div *ngIf="product.serving_suggestion">
+            <p>
+              Serving Suggestion:<br />
+              {{ product.serving_suggestion }}
+            </p>
+          </div>
+          <div *ngIf="product.tasting_note" class="margin-top-md well">
+            <p>{{ product.tasting_note }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

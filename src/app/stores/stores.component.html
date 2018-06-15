@@ -1,0 +1,94 @@
+<div class="row fade-me-in">
+    <div *ngIf="closestStores">
+    <ul class="list-group">
+      <li class="list-group-item fade-me-in" *ngFor="let store of closestStores">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{store.latitude}},%20{{store.longitude}}&zoom=15&size=200x200&markers=color:red%7Clabel:L%7C{{store.latitude}},%20{{store.longitude}}&key=AIzaSyCkuHsWaCFAStynBh37DUAurUQHfz4imzs" alt="">
+          </div>
+          <div class="col-md-5">
+            <h3><a routerLink="/stores/{{store.id}}">{{ store.name }}</a></h3>
+            <div>{{ store.address_line_1 }}</div>
+            <div *ngIf="store.address_line_2">{{ store.address_line_2 }}</div>
+            <div>{{ store.city }}</div>
+            <div>{{ store.postal_code }}</div>
+            <div><a href="tel:{{ store.telephone }}">{{ store.telephone }}</a></div>
+            <div *ngIf="store.distance_in_meters">Distance: {{ store.distance_in_meters | metresToKilometres : 1 }}</div>
+            <div class="margin-top-sm">
+              <button *ngIf="!_cache.storeSelected(store.id)" class="btn btn-default" (click)="_cache.setStore(store)">Select As Your Store</button>
+              <label class="selected-store" *ngIf="_cache.storeSelected(store.id)">Your Store</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h4>Store Hours</h4>
+            <div>Monday: {{ store.monday_open | storeHoursConverter }} - {{ store.monday_close | storeHoursConverter }}</div>
+            <div>Tuesday: {{ store.tuesday_open | storeHoursConverter }} - {{ store.tuesday_close | storeHoursConverter }}</div>
+            <div>Wednesday: {{ store.wednesday_open | storeHoursConverter }} - {{ store.wednesday_close | storeHoursConverter }}</div>
+            <div>Thursday: {{ store.thursday_open | storeHoursConverter }} - {{ store.thursday_close | storeHoursConverter }}</div>
+            <div>Friday: {{ store.friday_open | storeHoursConverter }} - {{ store.friday_close | storeHoursConverter }}</div>
+            <div>Saturday: {{ store.saturday_open | storeHoursConverter }} - {{ store.saturday_close | storeHoursConverter }}</div>
+            <div>Sunday: {{ store.sunday_open | storeHoursConverter }} - {{ store.sunday_close | storeHoursConverter }}</div>
+          </div>
+        </div> 
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="input-group fade-me-in bottom-spacer-md">
+      <input type="text" class="form-control" placeholder="Find a Stores..." [(ngModel)]="query" (keyup.enter)="findStores()">
+      <span class="input-group-btn">
+          <button class="btn btn-default" type="button" (click)="findStores()" [disabled]="!query">
+            &nbsp;<i *ngIf="searching" class="fa fa-circle-o-notch fa-spin fa-fw"></i>&nbsp;Search&nbsp;</button>
+      </span>
+    </div>
+  </div>
+</div>
+<div *ngIf="pager && !pager.total_pages" class="row fade-me-in margin-top-md">
+  <div class="col-md-6 col-md-offset-3 text-center">
+    No Results
+  </div>
+</div>
+<div class="row margin-top-md">
+  <div *ngIf="stores">
+    <ul class="list-group">
+      <li class="list-group-item fade-me-in" *ngFor="let store of stores">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{store.latitude}},%20{{store.longitude}}&zoom=15&size=200x200&markers=color:red%7Clabel:L%7C{{store.latitude}},%20{{store.longitude}}&maptype=hybrid&key=AIzaSyCkuHsWaCFAStynBh37DUAurUQHfz4imzs" alt="">
+          </div>
+          <div class="col-md-5">
+            <h3><a routerLink="/stores/{{store.id}}">{{ store.name }}</a></h3>
+            <div>{{ store.address_line_1 }}</div>
+            <div *ngIf="store.address_line_2">{{ store.address_line_2 }}</div>
+            <div>{{ store.city }}</div>
+            <div>{{ store.postal_code }}</div>
+            <div><a href="tel:{{ store.telephone }}">{{ store.telephone }}</a></div>
+            <div class="margin-top-sm">
+              <button *ngIf="!_cache.storeSelected(store.id)" class="btn btn-default" (click)="_cache.setStore(store)">Select As Your Store</button>
+              <label class="selected-store" *ngIf="_cache.storeSelected(store.id)">Your Store</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h4>Store Hours</h4>
+            <div>Monday: {{ store.monday_open | storeHoursConverter }} - {{ store.monday_close | storeHoursConverter }}</div>
+            <div>Tuesday: {{ store.tuesday_open | storeHoursConverter }} - {{ store.tuesday_close | storeHoursConverter }}</div>
+            <div>Wednesday: {{ store.wednesday_open | storeHoursConverter }} - {{ store.wednesday_close | storeHoursConverter }}</div>
+            <div>Thursday: {{ store.thursday_open | storeHoursConverter }} - {{ store.thursday_close | storeHoursConverter }}</div>
+            <div>Friday: {{ store.friday_open | storeHoursConverter }} - {{ store.friday_close | storeHoursConverter }}</div>
+            <div>Saturday: {{ store.saturday_open | storeHoursConverter }} - {{ store.saturday_close | storeHoursConverter }}</div>
+            <div>Sunday: {{ store.sunday_open | storeHoursConverter }} - {{ store.sunday_close | storeHoursConverter }}</div>
+          </div>
+        </div> 
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row margin-top-sm margin-bottom-sm" *ngIf="pager && !pager.is_final_page">
+  <div class="col-md-12 text-center">
+    <button class="btn btn-default btn-lg" (click)="loadMoreResults(pager.next_page_path)">
+      &nbsp;<i *ngIf="searching" class="fa fa-circle-o-notch fa-spin fa-fw"></i>&nbsp;Load More Results...&nbsp;
+    </button>
+  </div>
+</div>

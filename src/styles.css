@@ -1,0 +1,136 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+.vertical-center {
+  min-height: 100%;  /* Fallback for vh unit */
+  min-height: 100vh; /* You might also want to use
+                        'height' property instead.
+                        
+                        Note that for percentage values of
+                        'height' or 'min-height' properties,
+                        the 'height' of the parent element
+                        should be specified explicitly.
+  
+                        In this case the parent of '.vertical-center'
+                        is the <body> element */
+ 
+  /* Make it a flex container */
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; 
+  
+  /* Align the bootstrap's container vertically */
+    -webkit-box-align : center;
+  -webkit-align-items : center;
+       -moz-box-align : center;
+       -ms-flex-align : center;
+          align-items : center;
+  
+  /* In legacy web browsers such as Firefox 9
+     we need to specify the width of the flex container */
+  width: 100%;
+  
+  /* Also 'margin: 0 auto' doesn't have any effect on flex items in such web browsers
+     hence the bootstrap's container won't be aligned to the center anymore.
+  
+     Therefore, we should use the following declarations to get it centered again */
+         -webkit-box-pack : center;
+            -moz-box-pack : center;
+            -ms-flex-pack : center;
+  -webkit-justify-content : center;
+          justify-content : center;
+}
+ 
+/* Animations */
+.fade-me-in {
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+ 
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+ 
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+ 
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+ 
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+ 
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.jumbotron.vertical-center {
+  margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
+  background-color: #272b30;
+  color: #ffffde;
+  font-size: 18px;
+}
+
+.margin-top-sm {
+    margin-top: 15px;
+}
+
+.margin-top-md {
+    margin-top: 25px;
+}
+
+.margin-top-lg {
+    margin-top: 50px;
+}
+
+.margin-bottom-sm {
+    margin-bottom: 15px;
+}
+
+.margin-bottom-md {
+    margin-bottom: 25px;
+}
+
+.margin-bottom-lg {
+    margin-bottom: 50px;
+}
+
+.margin-left-sm {
+    margin-left: 15px;
+}
+
+.margin-left-md {
+    margin-left: 25px;
+}
+
+.margin-left-lg {
+    margin-left: 50px;
+}
+
+.padding-sm {
+    padding: 5px;
+}
+
+.padding-md {
+    padding: 15px;
+}
+
+.padding-lg {
+    padding: 30px;
+}

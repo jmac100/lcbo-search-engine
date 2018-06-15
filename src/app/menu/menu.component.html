@@ -1,0 +1,45 @@
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" routerLink='/'>
+            <img src="assets/lcbo_lg.png" class="img-responsive ">
+        </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">   
+            <li><a routerLink="/stores" onclick='$(".navbar-collapse").collapse("hide");' >Find a Store</a></li>
+            <li><a routerLink="#" onclick='$(".navbar-collapse").collapse("hide");' (click)="clearProductSearch()">Products</a></li>
+            <li><a routerLink="#" onclick='$(".navbar-collapse").collapse("hide");' (click)="clearOfferSearch()">Offers</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="_cache.favourites" class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Favourites<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let favourite of _cache.favourites">
+                        <a routerLink="/products/{{favourite.productId}}" onclick='$(".navbar-collapse").collapse("hide");'>{{favourite.description}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a *ngIf="_cache.getSelectedStore()" routerLink="/stores/{{_cache.getSelectedStore().id}}" onclick='$(".navbar-collapse").collapse("hide");'>
+                    {{ _cache.getSelectedStore().name }}
+                    <i *ngIf="store" 
+                        [title]="IsOpen() ? 'Open' : 'Closed'" 
+                        [class]="IsOpen() ? 'text-success' : 'text-danger'">&nbsp;
+                        {{ IsOpen() ? "(Open)" : "(Closed)" }}
+                    </i>
+                </a>
+            </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+</nav>

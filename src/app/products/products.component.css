@@ -1,0 +1,14 @@
+.producer {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.1em;
+}
+
+.strike {
+    text-decoration: line-through;
+}
+
+.product-link {
+    cursor: pointer;
+}

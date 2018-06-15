@@ -1,0 +1,11 @@
+img {
+    width: 100%;
+}
+
+.strike {
+    text-decoration: line-through;
+}
+
+.product-link {
+    cursor: pointer;
+}
