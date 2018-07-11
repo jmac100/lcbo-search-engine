@@ -21,6 +21,9 @@
             <label [class.strike]="product.has_limited_time_offer" [class.text-danger]="product.has_limited_time_offer">{{ product.regular_price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}</label>
             <label *ngIf="product.has_limited_time_offer">&nbsp;{{ product.price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}&nbsp; Offer ends {{ product.limited_time_offer_ends_on }}</label>
           </div>
+          <div *ngIf="product.has_limited_time_offer">
+            Save: <label class="text-success">{{ (product.regular_price_in_cents - product.price_in_cents) / 100 | currency: 'USD': true: '1.2-2' }}</label>
+          </div>
           <div *ngIf="inventory">Quantity @ your store: <label [class.text-success]="inventory.quantity" [class.text-danger]="!inventory.quantity">{{ inventory.quantity }}</label></div>
           <div *ngIf="product.serving_suggestion">
             <p>
