@@ -26,6 +26,7 @@
             <div *ngIf="product.is_discontinued" class="text-danger">Discontinued</div>
             <h4 *ngIf="product.origin">{{ product.origin }}</h4>
             <div *ngIf="product.varietal">{{ product.varietal }}</div>
+            <div *ngIf="product.sugar_content">{{ product.sugar_content.split('-')[1] }}</div>
             <div *ngIf="product.package">{{ product.package }}</div>
             <div *ngIf="product.has_bonus_reward_miles">{{ product.bonus_reward_miles }}</div>
             <div>

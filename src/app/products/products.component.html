@@ -31,6 +31,7 @@
               <div *ngIf="product.origin">{{ product.origin }}</div>
             </div>
             <div *ngIf="product.varietal">{{ product.varietal }}</div>
+            <div *ngIf="product.sugar_content">{{ product.sugar_content.split('-')[1] }}</div>
             <div *ngIf="product.package">{{ product.package }}</div>
             <div>
               <label [class.strike]="product.has_limited_time_offer" [class.text-danger]="product.has_limited_time_offer">{{ product.regular_price_in_cents / 100 | currency: 'USD': true: '1.2-2' }}</label>

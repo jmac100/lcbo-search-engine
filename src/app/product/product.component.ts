@@ -38,7 +38,9 @@ export class ProductComponent implements OnInit {
   }
 
   checkInventory() {
-    this._appService.checkInventory(this._cacheService.getSelectedStore().id, this.product.id)
+    let selectedStore = this._cacheService.getSelectedStore();
+    if (!selectedStore) return;
+    this._appService.checkInventory(selectedStore.id, this.product.id)
       .subscribe(inventory => {
         this.inventory = inventory.result;
       });
